@@ -337,13 +337,13 @@ BinarySearchTree<Key, Value>::iterator::operator++()
 {
 	// done
 	Node<Key, Value>* successor = current_;
-	bool exist;
+	bool exist = false;
 
 	if(successor == NULL){ //if node is empty then return null
 		return *this;
 	}
 
-	if(successor->getRight() != NULL){ //if there is a right tree, we need to go all the way to the left
+	else if(successor->getRight() != NULL){ //if there is a right tree, we need to go all the way to the left
 		successor = successor->getRight(); //go right
 		while(successor->getLeft()!=NULL){ //keep going left until there are not more lefts to go
 				successor = successor->getLeft(); //the successor is this node
@@ -355,7 +355,7 @@ BinarySearchTree<Key, Value>::iterator::operator++()
 
 	else{ //if there is no right tree, then the in-order successor will have to be someones parent
 		while(successor->getParent() != NULL){ 
-			if(successor->getParent()->getLeft() == successor){
+			if(successor->getParent()->getLeft() == successor){ //the first node in which the node is part of the left subtree
 				successor = successor->getParent();
 				exist = true;
 				break;
@@ -559,14 +559,14 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 					root_ = n;
 					n->setParent(NULL);
 				}
-				else{ //
-					if(toRemove->getParent()->getRight()==toRemove){
-						toRemove->getParent()->setRight(n);
+				else{ 
+					if(toRemove->getParent()->getRight()==toRemove){ //if the node is the right child of its parent
+						toRemove->getParent()->setRight(n); //make the child be the new right child
 					}
-					else if(toRemove->getParent()->getLeft()==toRemove){
-						toRemove->getParent()->setLeft(n);
+					else if(toRemove->getParent()->getLeft()==toRemove){ //if the node is the left child of its parent
+						toRemove->getParent()->setLeft(n); //make the child be the new left child
 					}
-					n->setParent(toRemove->getParent());
+					n->setParent(toRemove->getParent()); //make the parent of the new child the parent
 				}
 			}
 
@@ -576,14 +576,14 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 					root_ = n;
 					n->setParent(NULL);
 				}
-				else{
-					if(toRemove->getParent()->getRight()==toRemove){
-						toRemove->getParent()->setRight(n);
+				else{ 
+					if(toRemove->getParent()->getRight()==toRemove){ //if the node is the right child of its parent
+						toRemove->getParent()->setRight(n); //make the child be the new right child
 					}
-					else if(toRemove->getParent()->getLeft()==toRemove){
-						toRemove->getParent()->setLeft(n);
+					else if(toRemove->getParent()->getLeft()==toRemove){ //if the node is the left child of its parent
+						toRemove->getParent()->setLeft(n); //make the child be the new left child
 					}
-					n->setParent(toRemove->getParent());
+					n->setParent(toRemove->getParent()); //make the parent of the new child the parent
 				}
 			}
 		}
@@ -594,7 +594,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 			Node<Key, Value>* right = toRemove->getRight();*/
 			Node<Key, Value>* pred = predecessor(toRemove);
 			nodeSwap(toRemove, pred);
-			if(toRemove->getLeft() == NULL && toRemove->getRight() == NULL){ //leaf
+			if(toRemove->getLeft() == NULL && toRemove->getRight() == NULL){ //leaf (0 children case)
 				if(toRemove->getParent()==NULL){ //if we're at the root
 					root_ = NULL;
 				}
@@ -605,23 +605,22 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 					toRemove->getParent()->setRight(NULL);
 				}
 			}
-			else if(toRemove->getLeft() != NULL && toRemove->getRight() == NULL){ //left child, no right child
+			else if(toRemove->getLeft() != NULL && toRemove->getRight() == NULL){ //left child, no right child (1 child case)
 				Node<Key, Value>* n = toRemove->getLeft();
 				if(toRemove->getParent()==NULL){ //if this is the root
 					root_ = n;
 					n->setParent(NULL);
 				}
-				else{
-					if(toRemove->getParent()->getRight()==toRemove){
-						toRemove->getParent()->setRight(n);
+				else{ 
+					if(toRemove->getParent()->getRight()==toRemove){ //if the node is the right child of its parent
+						toRemove->getParent()->setRight(n); //make the child be the new right child
 					}
-					else if(toRemove->getParent()->getLeft()==toRemove){
-						toRemove->getParent()->setLeft(n);
+					else if(toRemove->getParent()->getLeft()==toRemove){ //if the node is the left child of its parent
+						toRemove->getParent()->setLeft(n); //make the child be the new left child
 					}
-					n->setParent(toRemove->getParent());
+					n->setParent(toRemove->getParent()); //make the parent of the new child the parent
 				}
 			}
-			
 		}
 
 		delete toRemove;
