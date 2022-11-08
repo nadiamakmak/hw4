@@ -196,7 +196,7 @@ public:
     BinarySearchTree(); //done
     virtual ~BinarySearchTree(); //done
     virtual void insert(const std::pair<const Key, Value>& keyValuePair); //done
-    virtual void remove(const Key& key); //TODO
+    virtual void remove(const Key& key); //done
     void clear(); //done
     bool isBalanced() const; //done
     void print() const;
@@ -534,7 +534,7 @@ void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &key
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::remove(const Key& key)
 {
-    // TODO
+    // done
 		Node<Key, Value>* toRemove = internalFind(key);
 		if(toRemove==NULL){ //if the node doesn't exist
 			return;
