@@ -1,4 +1,5 @@
 Nadia Makmak
+makmak@usc.edu
 HW4 - AVLTrees
 CSCI104 – Fall 2022
 

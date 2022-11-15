@@ -269,29 +269,29 @@ void AVLTree<Key, Value>:: remove(const Key& key)
 					}
 				}
 
-				//if(grandchild != NULL){
+				//if(grandchild != NULL){ //account for no grandchild?? hard-coded, remove later
 					if(rightHeight>leftHeight){ //if the right subtree is longer than the left subtree, then it is either needs a left rotation or a right-left rotation
-						if(grandchild->getKey() > child->getKey()){ 
+						if(grandchild->getKey() > child->getKey()){  //if the grandchild key is greater than the child, then we know its zig-zig
 							leftRotate(subtreeRoot);
 						}
-						else if(grandchild->getKey() < child->getKey()){ 
+						else if(grandchild->getKey() < child->getKey()){ //zig-zag
 							rightRotate(subtreeRoot->getRight()); //turns the tree into a zig-zig
 							leftRotate(subtreeRoot);
 						}
 					}
 
 					else if(leftHeight>rightHeight){ //if the left subtree is longer than the right subtree, then it either needs a right rotation or a left-right rotation
-						if(grandchild->getKey() < child->getKey()){ 
+						if(grandchild->getKey() < child->getKey()){  //if the grandchild key is greater than the child, then we know its zag-zag
 							rightRotate(subtreeRoot);
 						}
-						else if(grandchild->getKey() > child->getKey()){ 
+						else if(grandchild->getKey() > child->getKey()){  //zag-zig
 							leftRotate(subtreeRoot->getLeft()); //turns the tree into a zag-zag
 							rightRotate(subtreeRoot);
 						}
 					}
 				//}
 			}
-			subtreeRoot = subtreeRoot->getParent();
+			subtreeRoot = subtreeRoot->getParent(); //advance up the tree
 		}
 
 }
@@ -390,7 +390,7 @@ AVLNode<Key, Value>* AVLTree<Key, Value>::BSTremove(const Key &key){ //copied fr
 	else{ //both children exist
 		AVLNode<Key, Value>* pred = (AVLNode<Key, Value>*)BinarySearchTree<Key, Value>::predecessor(toRemove);
 		nodeSwap(toRemove, pred);
-		p = toRemove->getParent();
+		p = toRemove->getParent(); // !!!UPDATE PARENT AFTER SWAPPING TO MAKE SURE WE RETURN THE CORRECT NODE TO LOOK AT IN REMOVE() !!
 		if(toRemove->getLeft() == NULL && toRemove->getRight() == NULL){ //leaf (0 children case)
 			if(toRemove->getParent()==NULL){ //if we're at the root
 				this->root_ = NULL;
@@ -435,9 +435,9 @@ AVLNode<Key, Value>* AVLTree<Key, Value>::BSTremove(const Key &key){ //copied fr
 template<class Key, class Value>
 int AVLTree<Key, Value>::findHeight(AVLNode<Key, Value>* a){
 	if (a==NULL){
-		return 0;
+		return 0; //no node is 0 
 	}
-	return a->getBalance();
+	return a->getBalance(); //the balance is updated through setBalance(), usually end up setting the balance within the functions where it is used
 }
 
 template<class Key, class Value>
